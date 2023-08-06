@@ -1,7 +1,15 @@
-﻿namespace TRMDesktopUI.ViewModels
-{
-    public class ShellViewModel
-    {
+﻿using Caliburn.Micro;
 
+namespace TRMDesktopUI.ViewModels
+{
+    public class ShellViewModel : Conductor<object>
+    {
+        private LoginViewModel _loginVM;
+
+        public ShellViewModel(LoginViewModel loginViewModel)
+        {
+            _loginVM = loginViewModel;
+            ActivateItem(_loginVM);
+        }
     }
 }
