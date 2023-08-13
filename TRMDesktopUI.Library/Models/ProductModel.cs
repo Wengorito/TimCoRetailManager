@@ -22,5 +22,7 @@
         /// Remaining items in the stock.
         /// </summary>
         public int QuantityInStock { get; set; }
+        public bool IsTaxable { get; set; }
+
     }
 }

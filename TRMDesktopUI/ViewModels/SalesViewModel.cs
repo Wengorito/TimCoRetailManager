@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using TRMDesktopUI.Library.Api;
+using TRMDesktopUI.Library.Helpers;
 using TRMDesktopUI.Library.Models;
 
 namespace TRMDesktopUI.ViewModels
@@ -13,10 +14,12 @@ namespace TRMDesktopUI.ViewModels
     {
         private BindingList<ProductModel> _products;
         private IProductEndpoint _productEndpoint;
+        private readonly IConfigHelper _configHelper;
 
-        public SalesViewModel(IProductEndpoint productEndpoint)
+        public SalesViewModel(IProductEndpoint productEndpoint, IConfigHelper configHelper)
         {
             _productEndpoint = productEndpoint;
+            _configHelper = configHelper;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -80,20 +83,41 @@ namespace TRMDesktopUI.ViewModels
             }
         }
 
+        private decimal CalculateSubTotal()
+        {
+            decimal subTotal = 0;
+
+            foreach (var item in Cart)
+            {
+                subTotal += item.Product.RetailPrice * item.QuantityInCart;
+            }
+
+            return subTotal;
+        }
+
+        private decimal CalculateTax()
+        {
+            decimal taxAmount = 0;
+            decimal taxRate = _configHelper.GetTaxRate();
+
+            foreach (var item in Cart)
+            {
+                if (item.Product.IsTaxable)
+                {
+                    // Always take the rounding into consideration
+                    taxAmount += item.Product.RetailPrice * item.QuantityInCart * taxRate;
+                }
+            }
+
+            return taxAmount;
+        }
+
         public string SubTotal
         {
             get
             {
-                decimal subTotal = 0;
-
-                foreach (var item in Cart)
-                {
-                    subTotal += item.Product.RetailPrice * item.QuantityInCart;
-                }
-
                 CultureInfo provider = new CultureInfo("pl-pl");
-
-                return subTotal.ToString("C", provider);
+                return CalculateSubTotal().ToString("C", provider);
             }
         }
 
@@ -101,7 +125,8 @@ namespace TRMDesktopUI.ViewModels
         {
             get
             {
-                return "$0.00";
+                CultureInfo provider = new CultureInfo("pl-pl");
+                return CalculateTax().ToString("C", provider);
             }
         }
 
@@ -109,7 +134,8 @@ namespace TRMDesktopUI.ViewModels
         {
             get
             {
-                return "$0.00";
+                CultureInfo provider = new CultureInfo("pl-pl");
+                return (CalculateSubTotal() + CalculateTax()).ToString("C", provider);
             }
         }
 
@@ -147,6 +173,8 @@ namespace TRMDesktopUI.ViewModels
             SelectedProduct.QuantityInStock -= ItemQuantity;
             ItemQuantity = 1;
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
         }
 
         public bool CanRemoveFromCart
@@ -166,6 +194,8 @@ namespace TRMDesktopUI.ViewModels
         public void RemoveFromCart()
         {
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
         }
 
         public bool CanCheckOut
