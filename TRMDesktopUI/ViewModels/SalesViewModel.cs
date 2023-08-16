@@ -57,7 +57,6 @@ namespace TRMDesktopUI.ViewModels
         }
 
         private ProductDisplayModel _selectedProduct;
-
         public ProductDisplayModel SelectedProduct
         {
             get { return _selectedProduct; }
@@ -78,6 +77,18 @@ namespace TRMDesktopUI.ViewModels
             {
                 _cart = value;
                 NotifyOfPropertyChange(() => Cart);
+            }
+        }
+
+        private CartItemDisplayModel _selectedCartItem;
+        public CartItemDisplayModel SelectedCartItem
+        {
+            get { return _selectedCartItem; }
+            set
+            {
+                _selectedCartItem = value;
+                NotifyOfPropertyChange(() => SelectedCartItem);
+                NotifyOfPropertyChange(() => CanRemoveFromCart);
             }
         }
 
@@ -188,11 +199,10 @@ namespace TRMDesktopUI.ViewModels
         {
             get
             {
-                // Make sure selected in cart
-                //if (SelectedProduct != null)
-                //{
-                //    return true;
-                //}
+                if (ItemQuantity > 0 && SelectedCartItem?.QuantityInCart >= ItemQuantity)
+                {
+                    return true;
+                }
 
                 return false;
             }
@@ -200,6 +210,15 @@ namespace TRMDesktopUI.ViewModels
 
         public void RemoveFromCart()
         {
+            SelectedCartItem.QuantityInCart -= ItemQuantity;
+            SelectedCartItem.Product.QuantityInStock += ItemQuantity;
+            ItemQuantity = 1;
+
+            if (SelectedCartItem.QuantityInCart < 1)
+            {
+                Cart.Remove(SelectedCartItem);
+            }
+
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
