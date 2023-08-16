@@ -1,8 +1,6 @@
-﻿using Caliburn.Micro;
-
-namespace TRMDesktopUI.Library.Models
+﻿namespace TRMDesktopUI.Library.Models
 {
-    public class CartItemModel : PropertyChangedBase
+    public class CartItemModel
     {
         public ProductModel Product { get; set; }
 
@@ -16,15 +14,6 @@ namespace TRMDesktopUI.Library.Models
             set
             {
                 _quantityInCart = value;
-                NotifyOfPropertyChange(() => DisplayText);
-            }
-        }
-
-        public string DisplayText
-        {
-            get
-            {
-                return $"{Product.ProductName} ({QuantityInCart})";
             }
         }
     }

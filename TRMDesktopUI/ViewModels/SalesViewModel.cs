@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using AutoMapper;
+using Caliburn.Micro;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -6,21 +8,28 @@ using System.Threading.Tasks;
 using TRMDesktopUI.Library.Api;
 using TRMDesktopUI.Library.Helpers;
 using TRMDesktopUI.Library.Models;
+using TRMDesktopUI.Models;
 
 namespace TRMDesktopUI.ViewModels
 {
     public class SalesViewModel : Screen
     {
-        private BindingList<ProductModel> _products;
+        private BindingList<ProductDisplayModel> _products;
         private IProductEndpoint _productEndpoint;
         private ISaleEndpoint _saleEndpoint;
+        private readonly IMapper _mapper;
         private readonly IConfigHelper _configHelper;
 
-        public SalesViewModel(IConfigHelper configHelper, IProductEndpoint productEndpoint, ISaleEndpoint saleEndpoint)
+        public SalesViewModel(
+            IConfigHelper configHelper,
+            IProductEndpoint productEndpoint,
+            ISaleEndpoint saleEndpoint,
+            IMapper mapper)
         {
             _productEndpoint = productEndpoint;
             _configHelper = configHelper;
             _saleEndpoint = saleEndpoint;
+            _mapper = mapper;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -31,12 +40,13 @@ namespace TRMDesktopUI.ViewModels
 
         private async Task LoadProducts()
         {
-            var products = await _productEndpoint.GetAll();
-            Products = new BindingList<ProductModel>(products);
+            var productList = await _productEndpoint.GetAll();
+            var productsToDisplay = _mapper.Map<List<ProductDisplayModel>>(productList);
+            Products = new BindingList<ProductDisplayModel>(productsToDisplay);
 
         }
 
-        public BindingList<ProductModel> Products
+        public BindingList<ProductDisplayModel> Products
         {
             get { return _products; }
             set
@@ -46,9 +56,9 @@ namespace TRMDesktopUI.ViewModels
             }
         }
 
-        private ProductModel _selectedProduct;
+        private ProductDisplayModel _selectedProduct;
 
-        public ProductModel SelectedProduct
+        public ProductDisplayModel SelectedProduct
         {
             get { return _selectedProduct; }
             set
@@ -59,9 +69,9 @@ namespace TRMDesktopUI.ViewModels
             }
         }
 
-        private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
+        private BindingList<CartItemDisplayModel> _cart = new BindingList<CartItemDisplayModel>();
 
-        public BindingList<CartItemModel> Cart
+        public BindingList<CartItemDisplayModel> Cart
         {
             get { return _cart; }
             set
@@ -158,7 +168,7 @@ namespace TRMDesktopUI.ViewModels
             }
             else
             {
-                CartItemModel item = new CartItemModel
+                CartItemDisplayModel item = new CartItemDisplayModel
                 {
                     Product = SelectedProduct,
                     QuantityInCart = ItemQuantity,
