@@ -11,6 +11,6 @@ namespace TRMDesktopUI.Library.Models
         string Token { get; set; }
         DateTime CreatedDate { get; set; }
 
-        void LogOffUser();
+        void ResetUSerModel();
     }
 }
