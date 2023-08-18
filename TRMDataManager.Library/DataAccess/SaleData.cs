@@ -13,7 +13,6 @@ namespace TRMDataManager.Library.DataAccess
         public SaleData(string connectionStringName)
         {
             _connectionStringName = connectionStringName;
-
         }
 
         public void SaveSale(SaleModel saleModel, string cashierId)
@@ -72,29 +71,42 @@ namespace TRMDataManager.Library.DataAccess
 
             sale.Total = sale.SubTotal + sale.Tax;
 
-
-            var sql = new SqlDataAccess();
-            sql.SaveData("spSale_Insert", sale, _connectionStringName);
-
-            var p = new { sale.CashierId, sale.SaleDate };
-            int? saleId = sql.LoadData<int, dynamic>("spSale_Lookup", p, _connectionStringName).FirstOrDefault();
-
-            if (saleId == null)
+            using (var sql = new SqlDataAccess())
             {
-                throw new Exception($"Sale could not be found in database.");
+                try
+                {
+                    sql.StartTransaction(_connectionStringName);
+                    sql.SaveDataInTransaction("spSale_Insert", sale);
+
+                    var p = new { sale.CashierId, sale.SaleDate };
+                    int? saleId = sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", p).FirstOrDefault();
+
+                    if (saleId == null)
+                    {
+                        throw new Exception($"Sale could not be found in database.");
+                    }
+
+                    // update saledetailsdbmodels saleIds
+                    foreach (var item in details)
+                    {
+                        item.SaleId = saleId.Value;
+
+                        // save sale details model to db
+                        sql.SaveDataInTransaction("spSaleDetail_Insert", item);
+
+                        // Fix roundtrips with table valued parameter - watch Tims advanced video on dapper
+                        // Verify which way is faster
+                    }
+
+                    sql.CommitTransaction();
+                }
+                catch
+                {
+                    sql.RollbackTransaction();
+                    throw;
+                }
             }
 
-            // update saledetailsdbmodels saleIds
-            foreach (var item in details)
-            {
-                item.SaleId = saleId.Value;
-
-                // save sale details model to db
-                sql.SaveData("spSaleDetail_Insert", item, _connectionStringName);
-
-                // Fix roundtrips with table valued parameter - watch Tims advanced video on dapper
-                // Verify which way is faster
-            }
         }
     }
 }
