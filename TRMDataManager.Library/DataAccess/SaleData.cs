@@ -106,7 +106,13 @@ namespace TRMDataManager.Library.DataAccess
                     throw;
                 }
             }
+        }
 
+        public List<SaleReportModel> GetSaleReport()
+        {
+            var sql = new SqlDataAccess();
+
+            return sql.LoadData<SaleReportModel, dynamic>("spSale_SaleReport", new { }, _connectionStringName);
         }
     }
 }
