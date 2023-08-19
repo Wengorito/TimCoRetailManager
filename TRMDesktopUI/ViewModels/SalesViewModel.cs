@@ -21,7 +21,7 @@ namespace TRMDesktopUI.ViewModels
         private IProductEndpoint _productEndpoint;
         private ISaleEndpoint _saleEndpoint;
         private readonly IMapper _mapper;
-        private readonly StatusInfoViewModel _status;
+        private readonly StatusInfoViewModel _statusInfo;
         private readonly IWindowManager _windowManager;
         private readonly IConfigHelper _configHelper;
 
@@ -37,7 +37,7 @@ namespace TRMDesktopUI.ViewModels
             _configHelper = configHelper;
             _saleEndpoint = saleEndpoint;
             _mapper = mapper;
-            _status = status;
+            _statusInfo = status;
             _windowManager = windowManager;
         }
 
@@ -59,13 +59,13 @@ namespace TRMDesktopUI.ViewModels
                 //var status = IoC.Get<StatusInfoViewModel>();
                 if (ex.Message == "Unauthorized")
                 {
-                    _status.UpdateMessage("Unauthorized Access", "You do not have the permission to interact with the Sales Form");
-                    _windowManager.ShowDialog(_status, null, settings);
+                    _statusInfo.UpdateMessage("Unauthorized Access", "You do not have the permission to interact with the Sales Form");
+                    _windowManager.ShowDialog(_statusInfo, null, settings);
                 }
                 else
                 {
-                    _status.UpdateMessage("Fatal Exception", ex.Message);
-                    _windowManager.ShowDialog(_status, null, settings);
+                    _statusInfo.UpdateMessage("Fatal Exception", ex.Message);
+                    _windowManager.ShowDialog(_statusInfo, null, settings);
                 }
                 TryClose();
             }
