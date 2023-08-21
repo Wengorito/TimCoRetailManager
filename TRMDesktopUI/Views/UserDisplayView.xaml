@@ -42,5 +42,22 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        
+        <!-- Column 1 -->
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1"
+                    Grid.RowSpan="2" Margin="20 0 0 0">
+            <TextBlock x:Name="SelectedUserName" Margin="0 0 0 10"/>
+            <TextBlock Text="Current Roles"/>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                <ListBox x:Name="UserRoles"/>
+                <Button x:Name="RemoveUserRole" Content="Remove" Margin="5 0 0 0"
+                        Height="40" VerticalAlignment="Top"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox x:Name="AvailableRoles" SelectedItem="SelectedAvailableRole"/>
+                <Button x:Name="AddUserRole" Content="Add Role" Margin="5 0 0 0"/>
+            </StackPanel>
+
+        </StackPanel>
     </Grid>
 </UserControl>
