@@ -20,10 +20,20 @@ A retail management system bulilt by TimCo Enterprise Solutions
 ### Miscellaneous 
 - Upgrading project from .NET Framework to .NET Core
 
-### 3rd Party
+## 3rd Party
 - MVVM: Caliburn.Micro
 - DI: SimpleContainer (Caliburn.Micro)
 - ORM: Dapper
 - Doc: Swagger 
 - AutoMapper
 - Icon: https://icons8.com/; https://icoconvert.com/
+
+## Application screenshots
+Login page  
+![alt text](Screenshots/Login.png?raw=true)
+
+Cart page  
+![alt text](Screenshots/Cart.png?raw=true)
+
+Users page  
+![alt text](Screenshots/Users.png?raw=true)
