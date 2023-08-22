@@ -36,7 +36,7 @@ namespace TRMDesktopUI.ViewModels
             set
             {
                 _selectedUser = value;
-                SelectedUserName = value.Email;
+                SelectedUserName = value.FullName;
                 PopulateRoleLists();
                 NotifyOfPropertyChange(() => SelectedUser);
             }

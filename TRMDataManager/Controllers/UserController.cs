@@ -52,9 +52,21 @@ namespace TRMDataManager.Controllers
 
                     output.Add(userModel);
                 }
-
-                return output;
             }
+
+            // Get users first and last names from the database
+            // could be done in the previous loop, but maybe better off close aspnet db context first
+            UserData data = new UserData("TRMData");
+            var dbUsers = data.GetAll();
+
+            foreach (var user in output)
+            {
+                var dbUser = dbUsers.Find(x => x.EmailAddress == user.Email);
+                user.FirstName = dbUser.FirstName;
+                user.LastName = dbUser.LastName;
+            }
+
+            return output;
         }
 
         [HttpGet]

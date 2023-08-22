@@ -23,5 +23,16 @@ namespace TRMDataManager.Library.DataAccess
 
             return output;
         }
+
+        public List<UserModel> GetAll()
+        {
+            SqlDataAccess sql = new SqlDataAccess();
+
+            var p = new { };
+
+            var output = sql.LoadData<UserModel, dynamic>("spUser_GetAll", p, _connectionStringName);
+
+            return output;
+        }
     }
 }
