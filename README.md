@@ -10,7 +10,7 @@ A retail management system bulilt by TimCo Enterprise Solutions
 ### API (ASP.NET WebAPI 2)
 - Web API as a layer between DB and UI (DAL)
 - Handle requests from UI to DB with micro ORM
-- ASP.NET User Identity for authentication
+- ASP.NET Identity for JWT Authentication
 - Seeding an initial user via Postman
 - Extending Swagger parameters to enable authentication endpoints with the bearer token
 - Assigning User Roles and restricting access
