@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using TRMDataManager.Library.Internals.DataAccess;
 using TRMDataManager.Library.Models;
 
@@ -7,15 +8,17 @@ namespace TRMDataManager.Library.DataAccess
     public class UserData
     {
         private readonly string _connectionStringName;
+        private readonly IConfiguration _config;
 
-        public UserData(string connectionStringName)
+        public UserData(string connectionStringName, IConfiguration config)
         {
             _connectionStringName = connectionStringName;
+            _config = config;
         }
 
         public List<UserModel> GetUserById(string id)
         {
-            SqlDataAccess sql = new SqlDataAccess();
+            SqlDataAccess sql = new SqlDataAccess(_config);
 
             var p = new { Id = id };
 
@@ -26,7 +29,7 @@ namespace TRMDataManager.Library.DataAccess
 
         public List<UserModel> GetAll()
         {
-            SqlDataAccess sql = new SqlDataAccess();
+            SqlDataAccess sql = new SqlDataAccess(_config);
 
             var p = new { };
 

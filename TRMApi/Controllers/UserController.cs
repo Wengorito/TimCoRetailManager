@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -19,17 +20,19 @@ namespace TRMApi.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration _config;
 
-        public UserController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public UserController(ApplicationDbContext context, UserManager<IdentityUser> userManager, IConfiguration config)
         {
             _context = context;
             _userManager = userManager;
+            _config = config;
         }
 
         [HttpGet]
         public UserModel GetById()
         {
-            UserData data = new UserData("TRMData");
+            UserData data = new UserData("TRMData", _config);
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -70,7 +73,7 @@ namespace TRMApi.Controllers
 
             // Get users first and last names from the database
             // could be done in the previous loop, but maybe better off close aspnet db context first
-            UserData data = new UserData("TRMData");
+            UserData data = new UserData("TRMData", _config);
             var dbUsers = data.GetAll();
 
             foreach (var user in output)

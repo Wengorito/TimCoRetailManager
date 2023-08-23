@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TRMDataManager.Library.Internals.DataAccess;
@@ -9,10 +10,12 @@ namespace TRMDataManager.Library.DataAccess
     public class SaleData
     {
         private readonly string _connectionStringName;
+        private readonly IConfiguration _config;
 
-        public SaleData(string connectionStringName)
+        public SaleData(string connectionStringName, IConfiguration config)
         {
             _connectionStringName = connectionStringName;
+            _config = config;
         }
 
         public void SaveSale(SaleModel saleModel, string cashierId)
@@ -25,7 +28,7 @@ namespace TRMDataManager.Library.DataAccess
             // https://stackoverflow.com/questions/7097079/c-sharp-sql-server-passing-a-list-to-a-stored-procedure
 
             var taxRate = ConfigHelper.GetTaxRate();
-            var productData = new ProductData(_connectionStringName);
+            var productData = new ProductData(_connectionStringName, _config);
             var products = productData.GetProducts();
             var details = new List<SaleDetailDBModel>();
 
@@ -71,7 +74,7 @@ namespace TRMDataManager.Library.DataAccess
 
             sale.Total = sale.SubTotal + sale.Tax;
 
-            using (var sql = new SqlDataAccess())
+            using (var sql = new SqlDataAccess(_config))
             {
                 try
                 {
@@ -110,7 +113,7 @@ namespace TRMDataManager.Library.DataAccess
 
         public List<SaleReportModel> GetSaleReport()
         {
-            var sql = new SqlDataAccess();
+            var sql = new SqlDataAccess(_config);
 
             return sql.LoadData<SaleReportModel, dynamic>("spSale_SaleReport", new { }, _connectionStringName);
         }
