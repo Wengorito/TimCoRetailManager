@@ -18,7 +18,11 @@ A retail management system bulilt by TimCo Enterprise Solutions
 - User Interface in WPF framework with MVVM achitecture
 - MVVM custom messaging system
 ### Miscellaneous 
-- Upgrading project from .NET Framework to .NET Core
+- Upgrading the application from .NET Framework to .NET Core:
+  - API Library -> .NET Standard (so it works with both previous and new app version)
+  - UI Library -> .NET Standard (so it works with both previous and new app version)
+  - Transfer API to a brand new ASP.NET Core MVC project
+  - WPF project -> .NET Core 3.0
 
 ## 3rd Party
 - MVVM: Caliburn.Micro
