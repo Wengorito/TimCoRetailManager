@@ -21,6 +21,7 @@ namespace TRMApi.Controllers
         }
 
         [Authorize(Roles = "Cashier")]
+        [HttpPost]
         public void Post(SaleModel sale)
         {
             SaleData data = new SaleData("TRMData", _config);
@@ -30,7 +31,8 @@ namespace TRMApi.Controllers
         }
 
         [Authorize(Roles = "Admin,Manager")]
-        [Route("api/GetSaleReport")]
+        [Route("/GetSaleReport")]
+        [HttpGet]
         public List<SaleReportModel> GetSaleReport()
         {
             //if (RequestContext.Principal.IsInRole("Admin"))

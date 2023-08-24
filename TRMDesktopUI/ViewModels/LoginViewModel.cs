@@ -97,7 +97,7 @@ namespace TRMDesktopUI.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = ex.ToString();
             }
         }
     }
