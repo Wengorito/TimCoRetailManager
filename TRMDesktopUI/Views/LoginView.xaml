@@ -29,7 +29,8 @@
         <!-- Error message row -->
         <TextBlock x:Name="ErrorMessage" Margin="0 0 0 20"
                    Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
-                   Foreground="Red" TextWrapping="Wrap" MaxWidth="300"
+                   Foreground="Red" TextWrapping="Wrap" MaxWidth="600" 
+                   MaxHeight="200" FontSize="14"
                    Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"
             />
 

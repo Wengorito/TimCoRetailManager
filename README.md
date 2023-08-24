@@ -24,7 +24,7 @@ A retail management system bulilt by TimCo Enterprise Solutions
 - MVVM: Caliburn.Micro
 - DI: SimpleContainer (Caliburn.Micro)
 - ORM: Dapper
-- Doc: Swagger 
+- Doc: Swashbuckle Swagger 
 - AutoMapper
 - Icon: https://icons8.com/; https://icoconvert.com/
 
