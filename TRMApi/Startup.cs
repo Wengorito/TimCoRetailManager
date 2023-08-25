@@ -10,6 +10,8 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
 using TRMApi.Data;
+using TRMDataManager.Library.DataAccess;
+using TRMDataManager.Library.Internals.DataAccess;
 
 namespace TRMApi
 {
@@ -33,6 +35,15 @@ namespace TRMApi
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // Personal Services
+            // AddTransient - creates new instance every time we ask for it
+            services.AddTransient<IInventoryData, InventoryData>();
+            services.AddTransient<IProductData, ProductData>();
+            services.AddTransient<ISaleData, SaleData>();
+            services.AddTransient<IUserData, UserData>();
+            services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "JwtBearer";

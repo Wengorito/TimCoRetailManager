@@ -1,39 +1,28 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TRMDataManager.Library.Internals.DataAccess;
 using TRMDataManager.Library.Models;
 
 namespace TRMDataManager.Library.DataAccess
 {
-    public class UserData
+    public class UserData : IUserData
     {
-        private readonly string _connectionStringName;
-        private readonly IConfiguration _config;
+        private readonly ISqlDataAccess _sql;
 
-        public UserData(string connectionStringName, IConfiguration config)
+        public UserData(ISqlDataAccess sql)
         {
-            _connectionStringName = connectionStringName;
-            _config = config;
+            _sql = sql;
         }
 
-        public List<UserModel> GetUserById(string id)
+        public List<UserModel> GetUserById(string Id)
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-
-            var p = new { Id = id };
-
-            var output = sql.LoadData<UserModel, dynamic>("spUserLookup", p, _connectionStringName);
+            var output = _sql.LoadData<UserModel, dynamic>("spUserLookup", new { Id }, "TRMData");
 
             return output;
         }
 
         public List<UserModel> GetAll()
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-
-            var p = new { };
-
-            var output = sql.LoadData<UserModel, dynamic>("spUser_GetAll", p, _connectionStringName);
+            var output = _sql.LoadData<UserModel, dynamic>("spUser_GetAll", new { }, "TRMData");
 
             return output;
         }

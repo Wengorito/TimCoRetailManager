@@ -8,8 +8,13 @@ using System.Linq;
 
 namespace TRMDataManager.Library.Internals.DataAccess
 {
-    internal class SqlDataAccess : IDisposable
+    public class SqlDataAccess : IDisposable, ISqlDataAccess
     {
+        private readonly IConfiguration _config;
+        private IDbConnection _connection;
+        private IDbTransaction _transaction;
+        private bool _isClosed = false;
+
         public SqlDataAccess(IConfiguration config)
         {
             _config = config;
@@ -43,11 +48,6 @@ namespace TRMDataManager.Library.Internals.DataAccess
             }
         }
 
-        private IDbConnection _connection;
-        private IDbTransaction _transaction;
-        private bool isClosed = false;
-        private readonly IConfiguration _config;
-
         public void StartTransaction(string connectionStringName)
         {
             var connectionString = GetConnectionString(connectionStringName);
@@ -57,7 +57,7 @@ namespace TRMDataManager.Library.Internals.DataAccess
 
             _transaction = _connection.BeginTransaction();
 
-            isClosed = false;
+            _isClosed = false;
         }
 
         public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
@@ -79,7 +79,7 @@ namespace TRMDataManager.Library.Internals.DataAccess
             _transaction?.Commit();
             _connection?.Close();
 
-            isClosed = true;
+            _isClosed = true;
         }
 
         public void RollbackTransaction()
@@ -87,12 +87,12 @@ namespace TRMDataManager.Library.Internals.DataAccess
             _transaction?.Rollback();
             _connection?.Close();
 
-            isClosed = false;
+            _isClosed = false;
         }
 
         public void Dispose()
         {
-            if (!isClosed)
+            if (!_isClosed)
             {
                 try
                 {

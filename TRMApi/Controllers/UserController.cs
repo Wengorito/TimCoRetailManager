@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -20,23 +19,26 @@ namespace TRMApi.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IConfiguration _config;
+        private readonly IUserData _userData;
 
-        public UserController(ApplicationDbContext context, UserManager<IdentityUser> userManager, IConfiguration config)
+        public UserController(
+            ApplicationDbContext context,
+            UserManager<IdentityUser> userManager,
+            IUserData userData)
         {
             _context = context;
             _userManager = userManager;
-            _config = config;
+            _userData = userData;
         }
 
         [HttpGet]
         public UserModel Get()
         {
-            UserData data = new UserData("TRMData", _config);
+
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return data.GetUserById(userId).First();
+            return _userData.GetUserById(userId).First();
         }
 
         [Authorize(Roles = "Admin")]
@@ -62,19 +64,13 @@ namespace TRMApi.Controllers
 
                 userModel.Roles = userRoles.Where(x => x.UserId == userModel.Id).ToDictionary(key => key.RoleId, value => value.Name);
 
-                //foreach (var role in user.Roles)
-                //{
-                //    userModel.Roles.Add(role.RoleId, roles.Where(x => x.Id == role.RoleId).First().Name);
-                //}
-
                 output.Add(userModel);
             }
 
 
             // Get users first and last names from the database
             // could be done in the previous loop, but maybe better off close aspnet db context first
-            UserData data = new UserData("TRMData", _config);
-            var dbUsers = data.GetAll();
+            var dbUsers = _userData.GetAll();
 
             foreach (var user in output)
             {

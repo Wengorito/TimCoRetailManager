@@ -1,26 +1,21 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TRMDataManager.Library.Internals.DataAccess;
 using TRMDataManager.Library.Models;
 
 namespace TRMDataManager.Library.DataAccess
 {
-    public class ProductData
+    public class ProductData : IProductData
     {
-        private readonly string _connectionStringName;
-        private readonly IConfiguration _config;
+        private readonly ISqlDataAccess _sql;
 
-        public ProductData(string connectionStringName, IConfiguration config)
+        public ProductData(ISqlDataAccess sql)
         {
-            _connectionStringName = connectionStringName;
-            _config = config;
+            _sql = sql;
         }
 
         public List<ProductModel> GetProducts()
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-
-            var output = sql.LoadData<ProductModel, dynamic>("spProduct_GetAll", new { }, _connectionStringName);
+            var output = _sql.LoadData<ProductModel, dynamic>("spProduct_GetAll", new { }, "TRMData");
 
             return output;
         }

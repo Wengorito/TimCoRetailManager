@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TRMDataManager.Library.Internals.DataAccess;
@@ -7,15 +6,15 @@ using TRMDataManager.Library.Models;
 
 namespace TRMDataManager.Library.DataAccess
 {
-    public class SaleData
+    public class SaleData : ISaleData
     {
-        private readonly string _connectionStringName;
-        private readonly IConfiguration _config;
+        private readonly IProductData _productData;
+        private readonly ISqlDataAccess _sql;
 
-        public SaleData(string connectionStringName, IConfiguration config)
+        public SaleData(IProductData productData, ISqlDataAccess sql)
         {
-            _connectionStringName = connectionStringName;
-            _config = config;
+            _productData = productData;
+            _sql = sql;
         }
 
         public void SaveSale(SaleModel saleModel, string cashierId)
@@ -24,12 +23,11 @@ namespace TRMDataManager.Library.DataAccess
             // var ids = sale.SaleDetails.Select(x => x.ProductId).ToList();
 
             // Not going to work that simply. For further investigation
-            // C# SQL Server - Passing a list to a stored procedure
-            // https://stackoverflow.com/questions/7097079/c-sharp-sql-server-passing-a-list-to-a-stored-procedure
+            // C# _sql Server - Passing a list to a stored procedure
+            // https://stackoverflow.com/questions/7097079/c-sharp-_sql-server-passing-a-list-to-a-stored-procedure
 
             var taxRate = ConfigHelper.GetTaxRate();
-            var productData = new ProductData(_connectionStringName, _config);
-            var products = productData.GetProducts();
+            var products = _productData.GetProducts();
             var details = new List<SaleDetailDBModel>();
 
             // Create SaleDetails list with available information
@@ -39,12 +37,6 @@ namespace TRMDataManager.Library.DataAccess
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
-                    //PurchasePrice = products
-                    //    .FirstOrDefault(x => x.Id == item.ProductId)
-                    //    .RetailPrice * item.Quantity,
-                    //Tax = products
-                    //    .FirstOrDefault(x => x.Id == item.ProductId)
-                    //    .RetailPrice * item.Quantity * ConfigHelper.GetTaxRate()
                 };
 
                 var productInfo = products.SingleOrDefault(x => x.Id == detail.ProductId);
@@ -74,48 +66,43 @@ namespace TRMDataManager.Library.DataAccess
 
             sale.Total = sale.SubTotal + sale.Tax;
 
-            using (var sql = new SqlDataAccess(_config))
+            try
             {
-                try
+                _sql.StartTransaction("TRMData");
+                _sql.SaveDataInTransaction("spSale_Insert", sale);
+
+                var p = new { sale.CashierId, sale.SaleDate };
+                int? saleId = _sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", p).FirstOrDefault();
+
+                if (saleId == null)
                 {
-                    sql.StartTransaction(_connectionStringName);
-                    sql.SaveDataInTransaction("spSale_Insert", sale);
-
-                    var p = new { sale.CashierId, sale.SaleDate };
-                    int? saleId = sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", p).FirstOrDefault();
-
-                    if (saleId == null)
-                    {
-                        throw new Exception($"Sale could not be found in database.");
-                    }
-
-                    // update saledetailsdbmodels saleIds
-                    foreach (var item in details)
-                    {
-                        item.SaleId = saleId.Value;
-
-                        // save sale details model to db
-                        sql.SaveDataInTransaction("spSaleDetail_Insert", item);
-
-                        // Fix roundtrips with table valued parameter - watch Tims advanced video on dapper
-                        // Verify which way is faster
-                    }
-
-                    sql.CommitTransaction();
+                    throw new Exception($"Sale could not be found in database.");
                 }
-                catch
+
+                // update saledetailsdbmodels saleIds
+                foreach (var item in details)
                 {
-                    sql.RollbackTransaction();
-                    throw;
+                    item.SaleId = saleId.Value;
+
+                    // save sale details model to db
+                    _sql.SaveDataInTransaction("spSaleDetail_Insert", item);
+
+                    // Fix roundtrips with table valued parameter - watch Tims advanced video on dapper
+                    // Verify which way is faster
                 }
+
+                _sql.CommitTransaction();
+            }
+            catch
+            {
+                _sql.RollbackTransaction();
+                throw;
             }
         }
 
         public List<SaleReportModel> GetSaleReport()
         {
-            var sql = new SqlDataAccess(_config);
-
-            return sql.LoadData<SaleReportModel, dynamic>("spSale_SaleReport", new { }, _connectionStringName);
+            return _sql.LoadData<SaleReportModel, dynamic>("spSale_SaleReport", new { }, "TRMData");
         }
     }
 }

@@ -24,7 +24,7 @@ namespace TRMApi.Controllers
             _userManager = userManager;
         }
 
-        [Route("/Token")]
+        [Route("Token")]
         [HttpPost]
         public async Task<IActionResult> Create(string username, string password, string grant_type)
         {

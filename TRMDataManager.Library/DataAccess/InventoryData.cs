@@ -1,36 +1,28 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TRMDataManager.Library.Internals.DataAccess;
 using TRMDataManager.Library.Models;
 
 namespace TRMDataManager.Library.DataAccess
 {
-    public class InventoryData
+    public class InventoryData : IInventoryData
     {
+        private readonly ISqlDataAccess _sql;
 
-        private readonly string _connectionStringName;
-        private readonly IConfiguration _config;
-
-        public InventoryData(string connectionStringName, IConfiguration config)
+        public InventoryData(ISqlDataAccess sql)
         {
-            _connectionStringName = connectionStringName;
-            _config = config;
+            _sql = sql;
         }
 
         public List<InventoryModel> GetInventory()
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-
-            var output = sql.LoadData<InventoryModel, dynamic>("spInventory_GetAll", new { }, _connectionStringName);
+            var output = _sql.LoadData<InventoryModel, dynamic>("spInventory_GetAll", new { }, "TRMData");
 
             return output;
         }
 
         public void SaveInventoryRecord(InventoryModel item)
         {
-            SqlDataAccess sql = new SqlDataAccess(_config);
-
-            sql.SaveData("spInventory_Insert", item, _connectionStringName);
+            _sql.SaveData("spInventory_Insert", item, "TRMData");
         }
     }
 }
