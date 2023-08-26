@@ -5,10 +5,10 @@ A retail management system bulilt by TimCo Enterprise Solutions
 ### Database (SQL)
 - Database schema design from the scratch
 - SQL DB creation in Visual Studio
-- Two separate databases: one for actual data and the EF DB for ASP.NET authentication
+- Two separate databases: one for the store data and the EF DB for ASP.NET authentication
 - Stored procedures to handle requests from API
 - Wrap DB access operations in transactions using C# code
-### API (ASP.NET WebAPI 2)
+### API (ASP.NET Web API)
 - Web API as a layer between DB and UI (DAL)
 - Handle requests from UI to DB with micro ORM
 - ASP.NET Identity for JWT Authentication
@@ -60,3 +60,17 @@ Users page
 	5. Move the database to Azure SQL
 	6. Deploy the desktop app to Azure Blob storage
 	7. Web-based inventory control system
+	
+### Course off-road: my own app development
+ - Separate branch for changes
+ - Adding products to inventory
+ - Inventory actually storing the sales check outs
+ - Create new user account
+ - WiX installer?
+ - Integrate API's (Google GeoAPI, AccuWeather, SunInfo etc).
+   - Ask for localization (or type a city)
+   - Display weather conditions, sunset sunrise etc.
+ - Add a Web-based User Interface
+ 
+	
+	
