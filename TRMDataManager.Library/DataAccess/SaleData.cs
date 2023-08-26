@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using TRMDataManager.Library.Internals.DataAccess;
 using TRMDataManager.Library.Models;
@@ -8,11 +10,13 @@ namespace TRMDataManager.Library.DataAccess
 {
     public class SaleData : ISaleData
     {
+        private readonly IConfiguration _config;
         private readonly IProductData _productData;
         private readonly ISqlDataAccess _sql;
 
-        public SaleData(IProductData productData, ISqlDataAccess sql)
+        public SaleData(IConfiguration config, IProductData productData, ISqlDataAccess sql)
         {
+            _config = config;
             _productData = productData;
             _sql = sql;
         }
@@ -26,7 +30,13 @@ namespace TRMDataManager.Library.DataAccess
             // C# _sql Server - Passing a list to a stored procedure
             // https://stackoverflow.com/questions/7097079/c-sharp-_sql-server-passing-a-list-to-a-stored-procedure
 
-            var taxRate = ConfigHelper.GetTaxRate();
+            var taxRate = _config.GetSection("Constants:TaxRate").Value;
+            bool isValidTaxRate = decimal.TryParse(taxRate, out decimal decimalTaxRate);
+            if (!isValidTaxRate)
+            {
+                throw new ConfigurationErrorsException("The tax rate is not set up properly");
+            }
+
             var products = _productData.GetProducts();
             var details = new List<SaleDetailDBModel>();
 
@@ -50,7 +60,7 @@ namespace TRMDataManager.Library.DataAccess
 
                 if (productInfo.IsTaxable)
                 {
-                    detail.Tax = detail.PurchasePrice * taxRate;
+                    detail.Tax = detail.PurchasePrice * decimalTaxRate;
                 }
 
                 details.Add(detail);

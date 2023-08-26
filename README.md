@@ -5,6 +5,7 @@ A retail management system bulilt by TimCo Enterprise Solutions
 ### Database (SQL)
 - Database schema design from the scratch
 - SQL DB creation in Visual Studio
+- Two separate databases: one for actual data and the EF DB for ASP.NET authentication
 - Stored procedures to handle requests from API
 - Wrap DB access operations in transactions using C# code
 ### API (ASP.NET WebAPI 2)
