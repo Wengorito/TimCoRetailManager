@@ -53,7 +53,7 @@ namespace TRMDesktopUI.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 settings.ResizeMode = ResizeMode.NoResize;
-                settings.Title = "System Error";
+                settings.Title = "Custom Error Display System";
 
                 // To have multiple vms use IoC somehow 
                 //var status = IoC.Get<StatusInfoViewModel>();

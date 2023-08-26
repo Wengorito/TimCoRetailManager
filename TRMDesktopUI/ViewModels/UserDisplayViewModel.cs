@@ -124,11 +124,11 @@ namespace TRMDesktopUI.ViewModels
                 dynamic settings = new ExpandoObject();
                 settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 settings.ResizeMode = ResizeMode.NoResize;
-                settings.Title = "System Error";
+                settings.Title = "Custom Error Display System";
 
                 if (ex.Message == "Unauthorized")
                 {
-                    _statusInfo.UpdateMessage("Unauthorized Access", "You do not have the permission to interact with the Sales Form");
+                    _statusInfo.UpdateMessage("Unauthorized Access", "You do not have the permission to interact with the Users Form");
                     await _windowManager.ShowDialogAsync(_statusInfo, null, settings);
                 }
                 else

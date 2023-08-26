@@ -24,6 +24,7 @@ A retail management system bulilt by TimCo Enterprise Solutions
   - UI Library -> .NET Standard (so it works with both previous and new app version)
   - Transfer API to a brand new ASP.NET Core MVC project
   - WPF project -> .NET Core 3.0
+- Using Azure DevOps for application development management
 
 ## 3rd Party
 - MVVM: Caliburn.Micro
@@ -71,6 +72,7 @@ Users page
    - Ask for localization (or type a city)
    - Display weather conditions, sunset sunrise etc.
  - Add a Web-based User Interface
+ - Add Unit Tests
  
 	
 	
