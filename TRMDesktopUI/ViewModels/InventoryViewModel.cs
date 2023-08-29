@@ -128,7 +128,7 @@ namespace TRMDesktopUI.ViewModels
             }
         }
 
-        private DateTime _purchaseDate;
+        private DateTime _purchaseDate = DateTime.Now;
 
         public DateTime PurchaseDate
         {
@@ -139,6 +139,13 @@ namespace TRMDesktopUI.ViewModels
                 NotifyOfPropertyChange(() => PurchaseDate);
                 NotifyOfPropertyChange(() => CanAddToInventory);
             }
+        }
+
+        private DateTime _datesAhead = DateTime.Now;
+
+        public DateTime DatesAhead
+        {
+            get { return _datesAhead; }
         }
 
         private async Task ResetInventoryViewModel()

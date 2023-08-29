@@ -59,8 +59,11 @@
             <TextBox x:Name="Quantity" MinWidth="100" Margin="0 0 0 10"/>
             <TextBlock Text="Purchase Price"/>
             <TextBox x:Name="PurchasePrice" MinWidth="100" Margin="0 0 0 10"/>
-            <TextBlock Text="Purchase Date"/>
-            <TextBox x:Name="PurchaseDate" MinWidth="100" Margin="0 0 0 20"/>
+            <TextBlock Text="Purchase Date" />
+            <DatePicker Margin="0 0 0 20" IsTodayHighlighted="True"
+                        SelectedDate="{Binding PurchaseDate}"
+                        DisplayDateEnd="{Binding DatesAhead, Mode=OneWay}">
+            </DatePicker>
             <Button x:Name="AddToInventory" Content="Add to Inventory"
                     Padding="5"/>
         </StackPanel>
