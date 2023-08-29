@@ -81,8 +81,8 @@ namespace TRMDataManager.Library.DataAccess
                 _sql.StartTransaction("TRMData");
                 _sql.SaveDataInTransaction("spSale_Insert", sale);
 
-                var p = new { sale.CashierId, sale.SaleDate };
-                int? saleId = _sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", p).FirstOrDefault();
+                var param1 = new { sale.CashierId, sale.SaleDate };
+                int? saleId = _sql.LoadDataInTransaction<int, dynamic>("spSale_Lookup", param1).FirstOrDefault();
 
                 if (saleId == null)
                 {
@@ -96,6 +96,11 @@ namespace TRMDataManager.Library.DataAccess
 
                     // save sale details model to db
                     _sql.SaveDataInTransaction("spSaleDetail_Insert", item);
+
+                    var Quantity = 0 - item.Quantity;
+
+                    var param2 = new { item.ProductId, Quantity };
+                    _sql.SaveDataInTransaction<dynamic>("spProduct_UpdateStock", param2);
 
                     // Fix roundtrips with table valued parameter - watch Tims advanced video on dapper
                     // Verify which way is faster

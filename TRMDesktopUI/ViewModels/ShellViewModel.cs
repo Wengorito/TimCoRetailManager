@@ -51,6 +51,11 @@ namespace TRMDesktopUI.ViewModels
             await ActivateItemAsync(IoC.Get<SalesViewModel>(), new CancellationToken());
         }
 
+        public async Task InventoryPageAsync()
+        {
+            await ActivateItemAsync(IoC.Get<InventoryViewModel>(), new CancellationToken());
+        }
+
         public async Task UserManagementAsync()
         {
             await ActivateItemAsync(IoC.Get<UserDisplayViewModel>(), new CancellationToken());

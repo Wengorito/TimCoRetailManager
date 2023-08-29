@@ -19,6 +19,7 @@ A retail management system bulilt by TimCo Enterprise Solutions
 - User Interface in WPF framework with MVVM achitecture
 - MVVM custom messaging system
 ### Miscellaneous 
+- Logging events with built-in logger
 - Upgrading the application from .NET Framework to .NET Core:
   - API Library -> .NET Standard (so it works with both previous and new app version)
   - UI Library -> .NET Standard (so it works with both previous and new app version)

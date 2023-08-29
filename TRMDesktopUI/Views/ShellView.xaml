@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TRMDesktopUI.Views"
         mc:Ignorable="d" FontSize="18"
-        Title="Retail Management System" Height="600" Width="1050">
+        Title="Retail Management System" Height="600" Width="850">
     <DockPanel>
         <Menu DockPanel.Dock="Top" FontSize="18">
             <MenuItem Header="_File">
@@ -13,7 +13,13 @@
             </MenuItem>
             <MenuItem Header="_Sales"
                       Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
-                <MenuItem x:Name="SalesPage" Header="Sales _page"/>
+                <MenuItem x:Name="SalesPage" Header="_Sale page"/>
+                <MenuItem x:Name="RegisterPage" Header="_Register"/>
+            </MenuItem>
+            <MenuItem Header="_Inventory"
+                      Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
+                <MenuItem x:Name="InventoryPage" Header="_Inventory"/>
+                <MenuItem x:Name="ProductsPage" Header="_Products"/>
             </MenuItem>
             <MenuItem Header="_Users"
                       Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">

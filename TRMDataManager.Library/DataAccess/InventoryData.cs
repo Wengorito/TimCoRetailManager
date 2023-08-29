@@ -20,9 +20,23 @@ namespace TRMDataManager.Library.DataAccess
             return output;
         }
 
-        public void SaveInventoryRecord(InventoryModel item)
+        public void SaveInventoryRecord(InventoryModel model)
         {
-            _sql.SaveData("spInventory_Insert", item, "TRMData");
+            try
+            {
+                _sql.StartTransaction("TRMData");
+                _sql.SaveDataInTransaction("spInventory_Insert", model);
+
+                var p = new { model.ProductId, model.Quantity };
+                _sql.SaveDataInTransaction<dynamic>("spProduct_UpdateStock", p);
+
+                _sql.CommitTransaction();
+            }
+            catch
+            {
+                _sql.RollbackTransaction();
+                throw;
+            }
         }
     }
 }
