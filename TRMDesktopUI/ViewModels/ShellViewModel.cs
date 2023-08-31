@@ -63,7 +63,7 @@ namespace TRMDesktopUI.ViewModels
 
         public async Task LogOutAsync()
         {
-            _loggedInUser.ResetUSerModel();
+            _loggedInUser.ResetUserModel();
             _apiHelper.LogOffUser();
             await ActivateItemAsync(IoC.Get<LoginViewModel>(), new CancellationToken());
             NotifyOfPropertyChange(() => IsLoggedIn);
