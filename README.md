@@ -1,5 +1,11 @@
 # TimCo Retail Manager
-A retail management system bulilt by TimCo Enterprise Solutions
+A retail management system built by TimCo Enterprise Solutions.
+
+## Project's background and goal
+This project was started following the YouTube course by Tim Corey regarding building a full scale application supporting a store's retail management system from scratch. The course involved designing and setting up the database, creating a web API and a desktop UI in MVVM pattern, all in legacy .NET Framework (4.7.2). Later on transition to .NET Core 3.1 was performed.
+After accomplishing this part I created second branch for my own development. This started with adding some modifications, which the original course author has initially omitted, i.e. with the shops inventory and the infamous legacy AppSettings amongst others, so application is fully operational back again. Later on I decided to add a web UI, initially in MVC 5 framework (NET 4.7.2) for the backwards compability (AppSettings again). Further steps will include adding an UI in .NET Core MVC technology and perhaps integrating some external APIs.
+
+The remaining undone part of the course involves transfering the application into the Azure cloud, which I am leaving for the end of development because of the additional cost of the Azure SQL Database maintanace (unfortunately I have already used the free Azure credit in the past).
 
 ## Topics covered (not in chronological order)
 ### Database (SQL)
@@ -29,7 +35,7 @@ A retail management system bulilt by TimCo Enterprise Solutions
 
 ## 3rd Party
 - MVVM: Caliburn.Micro
-- DI: SimpleContainer (Caliburn.Micro)
+- DI: SimpleContainer (Caliburn.Micro), Ninject
 - ORM: Dapper
 - Doc: Swashbuckle Swagger 
 - AutoMapper
