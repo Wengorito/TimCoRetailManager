@@ -48,6 +48,11 @@ The remaining undone part of the Course involves transfering the application int
 - Icon: https://icons8.com/; https://icoconvert.com/
 
 ## Application screenshots
+
+### Web User Interface
+Sales page:
+![alt text](Screenshots/WebSalesPage.png?raw=true)
+
 ### Desktop User Interface
 Login page:
 ![alt text](Screenshots/Login.png?raw=true)
@@ -57,10 +62,6 @@ Sales page:
 
 Users page:
 ![alt text](Screenshots/Users.png?raw=true)
-
-### Web User Interface
-Sales page:
-![alt text](Screenshots/WebSalesPage.png?raw=true)
 
 ### REST API
 Endpoints documentation:
