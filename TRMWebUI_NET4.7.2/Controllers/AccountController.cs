@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using TRMDesktopUI.Library.Api;
+using TRMDesktopUI.Library.Models;
 using TRMWebUI_NET4._7._2.Models;
 
 namespace TRMWebUI_NET4._7._2.Controllers
@@ -8,10 +9,12 @@ namespace TRMWebUI_NET4._7._2.Controllers
     public class AccountController : Controller
     {
         private readonly IApiHelper _apiHelper;
+        private readonly ILoggedInUserModel _loggedInUserModel;
 
-        public AccountController(IApiHelper apiHelper)
+        public AccountController(IApiHelper apiHelper, ILoggedInUserModel loggedInUserModel)
         {
             _apiHelper = apiHelper;
+            _loggedInUserModel = loggedInUserModel;
         }
 
         // GET: ACcount
@@ -43,7 +46,14 @@ namespace TRMWebUI_NET4._7._2.Controllers
             var result = await _apiHelper.Authenticate(model.Email, model.Password);
             await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
 
-            return View(model);
+            if (string.IsNullOrEmpty(_loggedInUserModel.Token))
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Product");
+
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true

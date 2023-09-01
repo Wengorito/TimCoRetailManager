@@ -1,26 +1,44 @@
-﻿using System.Threading.Tasks;
+﻿using AutoMapper;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using TRMDesktopUI.Library.Api;
+using TRMDesktopUI.Library.Models;
+using TRMWebUI_NET4._7._2.Models;
 
 namespace TRMWebUI_NET4._7._2.Controllers
 {
     public class ProductController : Controller
     {
         private readonly IProductEndpoint _productEndpoint;
+        private readonly ILoggedInUserModel _loggedInUserModel;
 
         // ninject
 
-        public ProductController(IProductEndpoint productEndpoint)
+        public ProductController(IProductEndpoint productEndpoint, ILoggedInUserModel loggedInUserModel)
         {
             _productEndpoint = productEndpoint;
+            _loggedInUserModel = loggedInUserModel;
         }
 
         // GET: Product
         public async Task<ActionResult> Index()
         {
+            if (string.IsNullOrEmpty(_loggedInUserModel.Token))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var products = await _productEndpoint.GetAll();
 
-            return View(products);
+            //foreach (var product in products)
+            //{
+            //    product.RetailPrice = (decimal)product.RetailPrice;
+            //}
+
+            //var dec = products.FirstOrDefault().RetailPrice;
+
+            return View(products.Select(Mapper.Map<ProductModel, ProductViewModel>));
         }
 
         // GET: Product/Details/5

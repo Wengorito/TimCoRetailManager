@@ -2,10 +2,16 @@
 A retail management system built by TimCo Enterprise Solutions.
 
 ## Project's background and goal
-This project was started following the YouTube course by Tim Corey regarding building a full scale application supporting a store's retail management system from scratch. The course involved designing and setting up the database, creating a web API and a desktop UI in MVVM pattern, all in legacy .NET Framework (4.7.2). Later on transition to .NET Core 3.1 was performed.
-After accomplishing this part I created second branch for my own development. This started with adding some modifications, which the original course author has initially omitted, i.e. with the shops inventory and the infamous legacy AppSettings amongst others, so application is fully operational back again. Later on I decided to add a web UI, initially in MVC 5 framework (NET 4.7.2) for the backwards compability (AppSettings again). Further steps will include adding an UI in .NET Core MVC technology and perhaps integrating some external APIs.
+This project was started following the YouTube Course by Tim Corey regarding building a full-scale application supporting a store's Retail Management System from scratch. The course involved designing and setting up the database, creating a web API and a desktop UI in MVVM pattern, all in legacy .NET Framework (4.7.2). Subsequently transition to .NET Core 3.1 was performed.
+After accomplishing that part I created second branch for my own development. This started with doing some modifications, which the original course author has initially omitted, i.e. with the store's inventory and the infamous legacy AppSettings amongst others, so that application was fully operational back again. Then I decided to add a web UI to the project and created a very simple, but functioning one, based solely on my previous experience with web development. It was initially built in ASP.NET MVC 5 Framework (NET 4.7.2) for the backwards compability (AppSettings again). For now it re-uses existing DesktopUI library, which required adding an external DI system (Ninject).
 
-The remaining undone part of the course involves transfering the application into the Azure cloud, which I am leaving for the end of development because of the additional cost of the Azure SQL Database maintanace (unfortunately I have already used the free Azure credit in the past).
+Further steps will include:
+- adding another UI in ASP.NET Core technology (2.1/3.1?)
+- providing a proper unit testing
+- providing some integration testing
+- perhaps integrating some external APIs.
+
+The remaining undone part of the Course involves transfering the application into the Azure cloud, which I am leaving for the final part of development because of the additional cost of the Azure SQL Database maintanace (unfortunately I have already used the free Azure credit in the past).
 
 ## Topics covered (not in chronological order)
 ### Database (SQL)
@@ -42,16 +48,22 @@ The remaining undone part of the course involves transfering the application int
 - Icon: https://icons8.com/; https://icoconvert.com/
 
 ## Application screenshots
-Login page  
+### Desktop User Interface
+Login page:
 ![alt text](Screenshots/Login.png?raw=true)
 
-Cart page  
+Sales page:
 ![alt text](Screenshots/Cart.png?raw=true)
 
-Users page  
+Users page:
 ![alt text](Screenshots/Users.png?raw=true)
 
-Endpoints
+### Web User Interface
+Sales page:
+![alt text](Screenshots/WebSalesPage.png?raw=true)
+
+### REST API
+Endpoints documentation:
 ![alt text](Screenshots/Swagger.png?raw=true)
 
 ## Application further development ideas:

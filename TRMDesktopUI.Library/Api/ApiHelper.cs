@@ -37,6 +37,14 @@ namespace TRMDesktopUI.Library.Api
             _apiClient.BaseAddress = new Uri(api);
             _apiClient.DefaultRequestHeaders.Clear();
             _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            // Following the article about singleton httpClient violates DNS changes
+            // https://byterot.blogspot.com/2016/07/singleton-httpclient-dns.html
+            // TODO research on this
+            //var sp = ServicePointManager.FindServicePoint(new Uri("https://localhost:5001"));
+            //sp.ConnectionLeaseTimeout = 5 * 1000; // in miliseconds
+
+            // TODO Also do some research whether separate httpClient per thread is better
         }
 
         public void LogOffUser()
