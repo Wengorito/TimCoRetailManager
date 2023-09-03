@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace TRMWebUI_NET4._7._2
 {
@@ -9,6 +8,8 @@ namespace TRMWebUI_NET4._7._2
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                        "~/Scripts/datatables/jquery.datatables.js",
+                        "~/Scripts/datatables/datatables.bootstrap.js",
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -24,6 +25,8 @@ namespace TRMWebUI_NET4._7._2
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/datatables/css/datatables.bootstrap.css",
+                      "~/Content/datatables/css/jquery.dataTables.min.css",
                       "~/Content/site.css"));
         }
     }

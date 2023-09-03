@@ -28,10 +28,10 @@ namespace TRMWebUI_NET4._7._2.Models
         /// <summary>
         /// Remaining items in the stock.
         /// </summary>
-        [Display(Name = "W magazynie")]
+        [Display(Name = "Stan magazynowy")]
         public int QuantityInStock { get; set; }
 
-        [Display(Name = "Opodatkowany")]
+        [Display(Name = "VAT")]
         public bool IsTaxable { get; set; }
 
         [Display(Name = "Cena jednostkowa")]

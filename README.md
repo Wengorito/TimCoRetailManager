@@ -6,9 +6,10 @@ This project was started following the YouTube Course by Tim Corey regarding bui
 After accomplishing that part I created second branch for my own development. This started with doing some modifications, which the original course author has initially omitted, i.e. with the store's inventory and the infamous legacy AppSettings amongst others, so that application was fully operational back again. Then I decided to add a web UI to the project and created a very simple, but functioning one, based solely on my previous experience with web development. It was initially built in ASP.NET MVC 5 Framework (NET 4.7.2) for the backwards compability (AppSettings again). For now it re-uses existing DesktopUI library, which required adding an external DI system (Ninject).
 
 Further steps will include:
-- adding another UI in ASP.NET Core technology (2.1/3.1?)
+- adding another UI in ASP.NET Core technology of choice
 - providing a proper unit testing
 - providing some integration testing
+- implement Repository Pattern
 - perhaps integrating some external APIs.
 
 The remaining undone part of the Course involves transfering the application into the Azure cloud, which I am leaving for the final part of development because of the additional cost of the Azure SQL Database maintanace (unfortunately I have already used the free Azure credit in the past).
@@ -49,10 +50,6 @@ The remaining undone part of the Course involves transfering the application int
 
 ## Application screenshots
 
-### Web User Interface
-Sales page:
-![alt text](Screenshots/WebSalesPage.png?raw=true)
-
 ### Desktop User Interface
 Login page:
 ![alt text](Screenshots/Login.png?raw=true)
@@ -62,6 +59,10 @@ Sales page:
 
 Users page:
 ![alt text](Screenshots/Users.png?raw=true)
+
+### Web User Interface (under construction)
+Sales page:
+![alt text](Screenshots/WebSalesPage.png?raw=true)
 
 ### REST API
 Endpoints documentation:

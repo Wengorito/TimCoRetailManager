@@ -1,55 +1,66 @@
-﻿@model IEnumerable<TRMWebUI_NET4._7._2.Models.ProductViewModel> 
+﻿@model IEnumerable<TRMWebUI_NET4._7._2.Models.ProductViewModel>
 @{
     ViewBag.Title = "Products";
 }
 
-<h1>Nowa transakcja</h1>
-<h5>Lista produktów</h5>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuantityInStock)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PriceToDisplay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsTaxable)
-        </th>
-        <th></th>
-    </tr>
+<h2>Nowa transakcja</h2>
+<br />
+<table id="products" class="display">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuantityInStock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PriceToDisplay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsTaxable)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantityInStock)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PriceToDisplay)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsTaxable)
-        </td>
-        <td>
-            @Html.ActionLink("+", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("-", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Do koszyka", "Edit", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuantityInStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriceToDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsTaxable)
+                </td>
+                <td>
+                    @Html.ActionLink("+", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("-", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Do koszyka", "Edit", new { id = item.Id })
+                </td>
+            </tr>
+        </tbody>
+        
+    }
 </table>
-<p>
+@*<p>
     @Html.ActionLink("Zapisz transakcję", "CheckOut")
-</p>
+</p>*@
+
+@section scripts
+{
+    <script>
+
+        $('#products').DataTable({
+
+        });
+    </script>
+}

@@ -7,7 +7,6 @@ using System.Dynamic;
 using System.Threading.Tasks;
 using System.Windows;
 using TRMDesktopUI.Library.Api;
-using TRMDesktopUI.Library.Helpers;
 using TRMDesktopUI.Models;
 
 namespace TRMDesktopUI.ViewModels
@@ -21,10 +20,8 @@ namespace TRMDesktopUI.ViewModels
         private readonly IMapper _mapper;
         private readonly StatusInfoViewModel _statusInfo;
         private readonly IWindowManager _windowManager;
-        private readonly IConfigHelper _configHelper;
 
         public InventoryViewModel(
-            IConfigHelper configHelper,
             IProductEndpoint productEndpoint,
             ISaleEndpoint saleEndpoint,
             IInventoryEndpoint inventoryEndpoint,
@@ -34,7 +31,6 @@ namespace TRMDesktopUI.ViewModels
             )
         {
             _productEndpoint = productEndpoint;
-            _configHelper = configHelper;
             _saleEndpoint = saleEndpoint;
             _mapper = mapper;
             _statusInfo = status;
