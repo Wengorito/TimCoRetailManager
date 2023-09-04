@@ -52,17 +52,17 @@ The remaining undone part of the Course involves transfering the application int
 
 ### Desktop User Interface
 Login page:
-![alt text](Screenshots/Login.png?raw=true | width=700)
+![alt text(Screenshots/Login.png?raw=true) | width=700]
 
 Sales page:
-![alt text](Screenshots/Cart.png?raw=true  | width=600)
+![alt text](Screenshots/Cart.png?raw=true)  | width=600
 
 Users page:
-![alt text](Screenshots/Users.png?raw=true width="700" height="500")
+![alt text(Screenshots/Users.png?raw=true) width="700" height="500"]
 
 ### REST API
 Endpoints documentation:
-![alt text](Screenshots/Swagger.png?raw=true =700x500)
+![alt text](Screenshots/Swagger.png?raw=true) =700x500
 
 ## Application further development ideas:
 	* Actually interact with the inventory
