@@ -52,7 +52,7 @@ The remaining undone part of the Course involves transfering the application int
 
 ### Desktop User Interface
 Login page:
-![alt text](Screenshots/Login.png?raw=true)
+<img src="/Wengorito/TimCoRetailManager/raw/Course-off-road/Screenshots/Login.png?raw=true" alt="alt text" style="max-width: 60%;">
 
 Sales page:
 ![alt text](Screenshots/Cart.png?raw=true)
